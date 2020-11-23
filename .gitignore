@@ -1,4 +1,13 @@
+# Byte-compiled / optimized / DLL files
 __pycache__
-wiki-cache.json
-fdc-cache.json
+
+# Cache files
+api/wiki_cache.json
+fdc_cache.json
+
+# API keys
 secrets.py
+
+# Flask stuff:
+instance/
+.webassets-cache

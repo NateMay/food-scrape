@@ -1,28 +1,29 @@
 
-# Dishes
+# After basic foods, we can start looking at storing similiar metadata for recipes
 
-After basic foods, we can start looking at storing similiar metadata for recipes
+## Considered Dishes
 
-EGG_DISHES = '/wiki/List_of_egg_dishes'
-CHEESE_DISHES = '/wiki/List_of_cheese_dishes'
-MEAT_DISHES = '/wiki/List_of_meat_dishes'
-FISH_DISHES = '/wiki/List_of_fish_dishes'
-SEA_FOOD_DISHES = '/wiki/List_of_seafood_dishes'
-CONDIMENTS_FOOD_DISHES = '/wiki/List_of_condiments'
-DESSERTS = '/wiki/List_of_desserts'
-DIPS = '/wiki/Dipping_sauce#List_of_common_dips'
-STEWS = '/wiki/List_of_stews'
-SOUPS = '/wiki/List_of_soups'
-SNACK_FOODS = '/wiki/List_of_snack_foods'
-SAUCES = '/wiki/List_of_sauces'
-SANDWICHES = '/wiki/List_of_sandwiches'
-SALADS = '/wiki/List_of_salads'
-PIES_TARTS_AND_FLANS_FLANS = '/wiki/List_of_pies,_tarts_and_flans'
-NOODLE_DISHES = '/wiki/List_of_noodle_dishes'
-NOODLES = '/wiki/List_of_noodles'
-PASTA = '/wiki/List_of_pasta'
-HALAL_AND_KOSHER_FISH = '/wiki/List_of_halal_and_kosher_fish'
-FERMENTED_FOODS = '/wiki/List_of_fermented_foods'
-DRIED_FOODS = '/wiki/List_of_dried_foods'
-SPREADS = '/wiki/List_of_spreads'
-FOOD_PASTES = '/wiki/List_of_food_pastes'
+('Egg Dishes', '/wiki/List_of_egg_dishes'),
+('Cheese Dishes', '/wiki/List_of_cheese_dishes'),
+('Meat Dishes', '/wiki/List_of_meat_dishes'),
+('Fish Dishes', '/wiki/List_of_fish_dishes'),
+('Seafood Dishes', '/wiki/List_of_seafood_dishes'),
+('Noodle Dishes', '/wiki/List_of_noodle_dishes'),
+('Desserts', '/wiki/List_of_desserts'),
+('Stews', '/wiki/List_of_stews'),
+('Soups', '/wiki/List_of_soups'),
+('Snack Foods', '/wiki/List_of_snack_foods'),
+('Sandwiches', '/wiki/List_of_sandwiches'),
+('Salads', '/wiki/List_of_salads'),
+('Tarts & Flans', '/wiki/List_of_pies,_tarts_and_flans'),
+('Noodles', '/wiki/List_of_noodles'),
+('Fermented Foods', '/wiki/List_of_fermented_foods'),
+('Food Pastes', '/wiki/List_of_food_pastes'),
+('Porridges', 'wiki/List_of_porridges'),
+('Dumplings', 'wiki/List_of_dumplings'),
+("Hors D'oeuvre", 'wiki/List_of_hors_d%27oeuvre'),
+('Rice Cakes', 'wiki/Rice_cake'),
+
+## Looks tough to scrape + less important
+
+('Halal & Kosher Fish', '/wiki/List_of_halal_and_kosher_fish')
