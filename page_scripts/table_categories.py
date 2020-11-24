@@ -3,7 +3,7 @@ import models
 from page_scripts import helpers
 from page_scripts import food_page
 
-def scrape(page_url, parent):
+def scrape(page_url, parent, column):
     ''' scrapes pages with the structure:
         1) h2 = name
         2) p = description
@@ -12,13 +12,13 @@ def scrape(page_url, parent):
     soup = http.request(page_url)
 
     return [models.WikiCategory(
-        multi_tables_name(table),
-        multi_tables_description(table),
-        multi_tables_foods(table),
+        category_name(table),
+        category_description(table),
+        category_foods(table, column),
         parent,
-    ) for table in soup.find(class_="mw-parser-output").select('table')]
+    ) for table in soup.find(class_="mw-parser-output").select('table.wikitable')]
 
-def multi_tables_name(table):
+def category_name(table):
     ''' scrapes the preceeding H2 text as the category name '''
     helpers.remove_superscripts(table)
 
@@ -27,18 +27,18 @@ def multi_tables_name(table):
             return helpers.scrub_string(sibling.text)
 
 
-def multi_tables_foods(table):
+def category_foods(table, column = 1):
     ''' gets the food names and links to dedicated pages, ultimately scraping the description'''
 
     foods = []
-    for anchor in [row.select_one('td:first-child a') for row in table.select('tbody tr')]:
+    for anchor in [row.select_one(f'td:nth-child({column}) a') for row in table.select('tbody tr')]:
         if anchor and 'redlink=1' not in anchor["href"]:
             foods.append(food_page.create_food_from_anchor(anchor))
 
     return foods
 
 
-def multi_tables_description(table):
+def category_description(table):
     ''' scrapes the preceeding paragraph as a description of the category '''
     helpers.remove_superscripts(table)
 

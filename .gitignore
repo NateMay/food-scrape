@@ -3,6 +3,7 @@ __pycache__
 
 # Cache files
 api/wiki_cache.json
+wiki_cache.json
 fdc_cache.json
 
 # API keys

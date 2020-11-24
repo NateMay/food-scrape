@@ -24,10 +24,12 @@ def scrape(page_url, parent):
             continue
 
         h2 = soup.find(id=idstr).parent
+        # selector: 'p, div' did not work
+        description = h2.find_next_sibling("p") or h2.find_next_sibling("div")
 
         results.append(models.WikiCategory(
             h2.text.replace('[edit]', ''),
-            h2.find_next_sibling("p").text,
+            description.text,
             getUlFoods(h2),
             parent,
         ))

@@ -9,7 +9,7 @@ class WikiCategory:
         print(self)
 
     def __str__(self):
-        return f'CATEGORY: {self.parent} : {self.name} - {self.description[:40]}... {len(self.foods)} foods. \n'
+        return f'CATEGORY: {self.parent} > {self.name} : {self.description[:40]}... {len(self.foods)} foods. \n'
 
     def insert_cmd(self):
         return (
@@ -42,3 +42,5 @@ def populate_dummies():
     return [WikiCategory('Category Name', 'Category Description', [
         WikiFood('A food', 'A description', 'An image')
     ], 'Parent Category')]
+
+# 
