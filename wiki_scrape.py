@@ -22,14 +22,14 @@ CATEGORIES = []
 
 def scrape_all_page_types():
     if True:
-        for category in PAGES_TO_SCRAPE.get('multi_category_table_pages'):
-            CATEGORIES.extend(table_categories.scrape(
-                f'{constants.WIKI_BASE}{category[1]}', category[0], category[2]))
-
-    if True:
         for category in PAGES_TO_SCRAPE.get('multi_category_ulist_pages'):
             CATEGORIES.extend(ul_categories.scrape(
                 f'{constants.WIKI_BASE}{category[1]}', category[0]))
+
+    if True:
+        for category in PAGES_TO_SCRAPE.get('multi_category_table_pages'):
+            CATEGORIES.extend(table_categories.scrape(
+                f'{constants.WIKI_BASE}{category[1]}', category[0], category[2]))
 
     if True:
         for category in PAGES_TO_SCRAPE.get('single_category_table_of_foods_pages'):

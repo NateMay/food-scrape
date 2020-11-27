@@ -16,7 +16,7 @@ def scrape(page_url, parent, column):
         category_description(table),
         category_foods(table, column),
         parent,
-    ) for table in soup.find(class_="mw-parser-output").select('table.wikitable')]
+    ) for table in soup.select('.mw-parser-output table.wikitable')]
 
 def category_name(table):
     ''' scrapes the preceeding H2 text as the category name '''

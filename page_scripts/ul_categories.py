@@ -17,11 +17,11 @@ def scrape(page_url, parent):
 
     results = []
 
-    for anchor in soup.find(id="toc").select('ul > li > a'):
+    for anchor in soup.select('#toc ul > li > a'):
 
         idstr = anchor['href'][1:]
         if idstr in ['See_also', 'Notes', 'References']:
-            continue
+            break
 
         h2 = soup.find(id=idstr).parent
         # selector: 'p, div' did not work
@@ -29,7 +29,7 @@ def scrape(page_url, parent):
 
         results.append(models.WikiCategory(
             h2.text.replace('[edit]', ''),
-            description.text,
+            description.text.strip(),
             getUlFoods(h2),
             parent,
         ))

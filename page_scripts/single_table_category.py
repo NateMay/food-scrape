@@ -14,7 +14,7 @@ def scrape(page_url, category_name):
 
     foods = []
 
-    for table in soup.find(class_="mw-parser-output").select('table.wikitable'):
+    for table in soup.select('.mw-parser-output table.wikitable'):
         for anchor in table.select('tbody tr td:first-child a'):
             if anchor and 'redlink=1' not in anchor["href"]:
                 foods.append(food_page.create_food_from_anchor(anchor))

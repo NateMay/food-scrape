@@ -4,7 +4,7 @@ from api import wiki_http as http
 
 
 def scrub_string(value):
-    remove_edit_btn = value.strip().replace('[edit]', '')
+    remove_edit_btn = value.replace('[edit]', '')
     to_single_quotes = remove_edit_btn.replace('"', "'")
     remove_citations = re.sub('\[\d{0,2}\]', '', to_single_quotes)
     return remove_citations.strip()
@@ -29,6 +29,10 @@ def description_from_route(route):
 
 def scape_description(page_url, soup=None):
     ''' scrapes all paragraph elements before the table of contents as the food description '''
+
+    if 'redlink=1' in page_url: 
+        return ''
+
     if not soup:
         soup = http.request(page_url)
 
@@ -42,8 +46,8 @@ def scrape_as_food_section(soup, as_food):
 
 
 def scrape_primary_page_description(soup):
-    return get_section_paragraphs(soup, soup.find(
-        class_="mw-parser-output").children)
+    content = soup.select_one('.mw-parser-output')
+    return get_section_paragraphs(soup, content.children) if content else ''
 
 
 def isHeader(el):
@@ -64,7 +68,7 @@ def get_section_paragraphs(soup, iterable):
 
 def scape_primary_image(soup):
     ''' scrapes the url of the first image '''
-    if not soup.find(class_="mw-parser-output"):
+    if not soup.select_one('.mw-parser-output'):
         return ''
     img = soup.select_one('.mw-parser-output img.thumbimage')
     return img['src'][2:] if img and img['src'] else None

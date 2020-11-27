@@ -3,7 +3,7 @@ from page_scripts import food_page, helpers
 from api import wiki_http as http
 
 PAGES_TO_SCRAPE = {  # reference: https://en.wikipedia.org/wiki/Lists_of_foods
-    'multi_category_table_pages': [
+    'multi_category_table_pages': [ # tuple[2] is the column index
         ('Fruit', '/wiki/List_of_culinary_fruits', 1),
         ('Vegitables', '/wiki/List_of_vegetables', 1),
         ('Pasta', '/wiki/List_of_pasta', 2),
