@@ -57,4 +57,5 @@ if __name__ == "__main__":
     # scrape_all_page_types()
     # db.run_commands(category_inserts(MEATS))
     # db.run_commands(category_inserts(CATEGORIES))
-    print(fdc_request.search())
+
+    print(fdc_request.search('apple'))

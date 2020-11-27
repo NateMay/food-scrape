@@ -63,7 +63,7 @@ def request(url):
     RESPNSE_CACHE = open_cache()
 
     if url in RESPNSE_CACHE:
-        print('Using Cache')
+        print('Using Cache for: ', url)
     else:
         print('Fetching: ', url)
         RESPNSE_CACHE[url] = requests.get(url).text
