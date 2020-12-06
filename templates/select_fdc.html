@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+
+{% block title %} 
+{{name}}
+{% endblock %}
+
+{% block html_head %}
+<style type="text/css">
+  img{
+    border-radius: 50%;
+    object-fit: cover;
+    height: 130px;
+    width: 130px;
+    margin:16px
+  }
+  .metadata {
+    display: flex;
+    margin-bottom: 16px;
+  }
+  .desc {
+    max-width: 400px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+  }
+  .desc, .name{
+    margin: 16px;
+    padding: 0;
+    text-align: left
+  }
+  .chip {
+    border-radius: 25px;
+    padding: 8px;
+    color: #fff;
+    background-color: #5A699D;
+    margin: 16px 0 16px 16px
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- reuse template: https://stackoverflow.com/questions/21275375/reuse-a-block-of-code-in-several-places-in-jinja2 -->
+<div class="metadata">
+  <img src="https://{{src}}">
+  <div class="text">
+    <h1 class="name">{{name}}</h1>
+    <p class="desc">{{description}}</p>
+  </div>
+</div>
+{% if cat1 %}
+<span class="chip">{{cat1}}</span>
+{% endif %}
+
+{% if cat2 %}
+<span class="chip">{{cat2}}</span>
+{% endif %}
+
+<!-- <div>id: {{id}}</div> -->
+{% endblock %}

@@ -10,6 +10,7 @@ from api import db
 # from pages import MEATS, PAGES_TO_SCRAPE
 import constants
 
+
 # script for each page type
 from page_scripts import ul_categories
 from page_scripts import table_categories
@@ -19,8 +20,10 @@ __version__ = '0.1.0'
 
 CATEGORIES = []
 
-
 def scrape_all_page_types():
+    # Scrape control flow - Allows me to "turn off" sections of 
+    # scraping logic during development
+        
     if False:
         for category in PAGES_TO_SCRAPE.get('multi_category_ulist_pages'):
             CATEGORIES.extend(ul_categories.scrape(
@@ -38,6 +41,8 @@ def scrape_all_page_types():
 
 
 def category_inserts(categories):
+    # traverses the caetegories and foods within and gets all of 
+    # the insert commands to enter into the database
     commands = []
     for cat in categories:
         commands.append(cat.insert_cmd())
@@ -59,3 +64,4 @@ if __name__ == "__main__":
     # db.run_commands(category_inserts(CATEGORIES))
 
     print(fdc_request.search('apple'))
+    exit()

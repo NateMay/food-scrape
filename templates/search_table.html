@@ -1,0 +1,89 @@
+
+{% extends "base.html" %}
+
+{% block title %} 
+  Search results for "{{term}}"
+{% endblock %}
+
+{% block html_head %}
+<style type="text/css">
+  /* Center tables for demo */
+  table {
+    margin: 0 32px;
+  }
+
+  /* Default Table Style */
+  table {
+    color: #333;
+    background: white;
+    border: 1px solid grey;
+    font-size: 12pt;
+    border-collapse: collapse;
+  }
+  table thead th,
+  table tfoot th {
+    color: #777;
+    background: rgba(0,0,0,.1);
+  }
+  table caption {
+    padding:.5em;
+  }
+  table th,
+  table td {
+    padding: .5em;
+    border: 1px solid lightgrey;
+  }
+  /* Zebra Table Style */
+  [data-table-theme*=zebra] tbody tr:nth-of-type(odd) {
+    background: rgba(0,0,0,.05);
+  }
+  [data-table-theme*=zebra][data-table-theme*=dark] tbody tr:nth-of-type(odd) {
+    background: rgba(255,255,255,.05);
+  }
+
+  img {
+    height: 80px;
+  }
+
+</style>
+
+<script type=text/javascript>
+  $(function() {
+    $('input[type=button]').on('click', function(e) {
+      $('#hidden').val($(this).data('row'))
+      $('#form').submit();
+    });
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+  <h1>Search results for "{{term}}"</h1>
+  <form id="form" action="select_food" method="POST">
+    <input type="hidden" name="row" id="hidden">
+  </form>
+  <table data-table-theme="default zebra">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category 1</th>
+        <th>Category 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td><input type="button" value = "Select" data-row="{{row}}"/></td>
+        <td><img src="https://{{row[3]}}"></td>
+        <td>{{row[1]}}</td>
+        <td>{{row[2]}}</td>
+        <td>{{row[4]}}</td>
+        <td>{{row[5]}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

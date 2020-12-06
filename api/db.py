@@ -2,7 +2,9 @@ import sqlite3
 
 DB_FILENAME = 'food_data.sqlite'
 
+
 def run_commands(commands):
+    # takes a list of SQL commands and executes them all
     conn = sqlite3.connect(DB_FILENAME)
     cur = conn.cursor()
 
@@ -32,9 +34,7 @@ def create_tables():
       "Id"               INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
       "Name"             TEXT NOT NULL,
       "Description"      TEXT,
-      "Parent"           TEXT
-  );
-  '''
+      "Parent"           TEXT);'''
 
     create_foods = '''CREATE TABLE IF NOT EXISTS "Foods" (
       "Id"               INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -42,12 +42,22 @@ def create_tables():
       "Description"      TEXT,
       "Image_src"        TEXT,
       "Category1"        TEXT,         
-      "Category2"        TEXT         
-  );
-  '''
+      "Category2"        TEXT);'''
 
     run_commands([
         create_categories,
         create_foods
     ])
 
+
+def query_db_by(term):
+    # Queries the foods by name and description
+    conn = sqlite3.connect(DB_FILENAME)
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM Foods WHERE name LIKE ?', (term, ))
+    in_name = cur.fetchall()
+    cur.execute('SELECT * FROM Foods WHERE description LIKE ?', (term, ))
+    in_desc = cur.fetchall()
+    conn.commit()
+    conn.close()
+    return in_name + in_desc

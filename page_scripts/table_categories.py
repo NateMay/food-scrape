@@ -3,6 +3,8 @@ import models
 from page_scripts import helpers
 from page_scripts import food_page
 
+# logic to scrape a page with a table of foods
+
 def scrape(page_url, parent, column):
     ''' scrapes pages with the structure:
         1) h2 = name
@@ -11,15 +13,18 @@ def scrape(page_url, parent, column):
     '''
     soup = http.request(page_url)
 
+    # each table is a category
+    tables = soup.select('.mw-parser-output table.wikitable')
     return [models.WikiCategory(
         category_name(table),
         category_description(table),
         category_foods(table, column),
         parent,
-    ) for table in soup.select('.mw-parser-output table.wikitable')]
+    ) for table in tables]
+
 
 def category_name(table):
-    ''' scrapes the preceeding H2 text as the category name '''
+    # scrapes the preceeding H2 text as the category name
     helpers.remove_superscripts(table)
 
     for sibling in table.previous_siblings:
@@ -27,8 +32,9 @@ def category_name(table):
             return helpers.scrub_string(sibling.text)
 
 
-def category_foods(table, column = 1):
-    ''' gets the food names and links to dedicated pages, ultimately scraping the description'''
+def category_foods(table, column=1):
+    # gets the food names and links to dedicated pages, 
+    # ultimately scraping the description
 
     foods = []
     for anchor in [row.select_one(f'td:nth-child({column}) a') for row in table.select('tbody tr')]:
@@ -39,10 +45,9 @@ def category_foods(table, column = 1):
 
 
 def category_description(table):
-    ''' scrapes the preceeding paragraph as a description of the category '''
+    # scrapes the preceeding paragraph as a description of the category
     helpers.remove_superscripts(table)
 
     for sibling in table.previous_siblings:
         if sibling.name == 'p':
             return helpers.scrub_string(sibling.text)
-

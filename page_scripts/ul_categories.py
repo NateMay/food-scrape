@@ -3,6 +3,7 @@ from api import wiki_http as http
 import models
 from page_scripts import food_page
 
+# 
 
 def scrape(page_url, parent):
     ''' scrapes pages with the structure:
@@ -12,13 +13,16 @@ def scrape(page_url, parent):
     '''
     soup = http.request(page_url)
 
+    # remove footnote superscripts
     for superscript in soup.select('sup'):
         superscript.extract()
 
     results = []
 
+    # scrape from the table of contents
     for anchor in soup.select('#toc ul > li > a'):
 
+        #  ignore irrelevant sections
         idstr = anchor['href'][1:]
         if idstr in ['See_also', 'Notes', 'References']:
             break
@@ -38,6 +42,8 @@ def scrape(page_url, parent):
 
 
 def getUlFoods(h2):
+    # recieves the h2 element and return an list of links to 
+    # the foods in the list following it
     return [
         food_page.create_food_from_anchor(anchor)
         for anchor

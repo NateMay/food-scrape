@@ -12,6 +12,7 @@ class WikiCategory:
         return f'CATEGORY: {self.parent} > {self.name} : {self.description[:40]}... {len(self.foods)} foods. \n'
 
     def insert_cmd(self):
+        # cretes an SQL insert command
         return (
             "INSERT INTO Categories VALUES(NULL, ?, ?, ?)",
             (self.name, self.description, self.parent)
@@ -31,6 +32,7 @@ class WikiFood:
         return f'- {self.name} - {self.description[:40]}... \n'
 
     def insert_cmd(self, categories):
+        # cretes an SQL insert command
         return (
             "INSERT INTO Foods VALUES(NULL, ?, ?, ?, ?, ?)",
             (self.name, self.description, self.image_src,
@@ -39,6 +41,7 @@ class WikiFood:
 
 
 def populate_dummies():
+    # helper function to create a test object tree
     return [WikiCategory('Category Name', 'Category Description', [
         WikiFood('A food', 'A description', 'An image')
     ], 'Parent Category')]
