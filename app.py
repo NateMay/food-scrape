@@ -20,14 +20,12 @@ def handle_term():
         term=term,
     )
 
-
 # handles a user selecting a food form the search results
 @app.route('/select_food', methods=['POST'])
 def select_food():
     wiki_food = eval(request.form["wiki_food"])
     wiki_name = wiki_food[1]
     results = fdc_http.search(wiki_name)
-    print(results)
 
     return render_template(
         'select_fdc.html',

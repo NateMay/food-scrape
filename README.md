@@ -13,25 +13,29 @@
 
 - Open `scrape.py`
 - Set all values in the `SHOULD` dictionary to `True`
-- run `python scrape.py` from the project root directory
+- Run `python scrape.py` from the project root directory
 
 ### Flask Application
 
-- obtain a Food Data Central [API key](https://fdc.nal.usda.gov/api-key-signup.html)
-- create `fdc/secrets.py` and add `FDC_API = 'XXXXXX'` replace your API Key
-- run `python app.py` from the project root directory
-- open `localhost:5000` in a web browser
+- Obtain a Food Data Central [API key](https://fdc.nal.usda.gov/api-key-signup.html)
+- Create `fdc/secrets.py` and add `FDC_API = 'XXXXXX'` replace your API Key
+- Run `python app.py` from the project root directory
+- Open `localhost:5000` in a web browser
+- Type a food name in the search bar
+- Select the item you're looking for from the resulting table
+- Select the fdc item from the resulting table
+- Click "Connect" if you wish to make a connection
 
 ## Inventory
 
 | Variable | Description |
 |----------|-------------|
-| scrape.py | Entry point into the scraping flow |
-| wiki_cache.py | cache for the Wikipedia scrape |
-| pages.py | Organizes Wikipedia page urls to be scraped by type |
-| models.py | Data models file |
-| app.py | Entry point and routing logic for the Flask web application |
-| /templates | HTML and templating files |
+| /fdc | USDA nutrition database requests and caching |
 | /page_scripts | Wikipedia scraping logic |
-| /api | SQL database interactions and Wikipedia request caching |
-| /fdc | USDA Nutrition Database request logic and caching |
+| /templates | flask HTML and templating files |
+| /wikipedia | Wikipedia requests and caching |
+| app.py | Entry point and routing logic for the Flask app |
+| db.py | SQL database interactions |
+| models.py | Data models file |
+| pages.py | Organizes Wikipedia page urls to be scraped by type |
+| scrape.py | Entry point into the scraping flow |

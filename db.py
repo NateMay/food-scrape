@@ -91,7 +91,6 @@ def insert_all(categories):
     cur = conn.cursor()
 
     for category in categories:
-        print(category)
         cur.execute(*category.insert_cmd())
         category.update_id(cur.lastrowid)
 
@@ -133,7 +132,6 @@ def connect_fdc_wiki(fdc, wiki):
     conn = sqlite3.connect(DB_FILENAME)
     cur = conn.cursor()
     fdc_id = fdc.get('fdcId')
-    print(wiki)
 
     # need to get wiki_food._id
     cur.execute('INSERT INTO fdc_wiki_link VALUES(NULL, ?, ?, ?)',

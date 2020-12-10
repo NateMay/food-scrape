@@ -34,7 +34,6 @@ class WikiCategory:
     def update_id(self, _id):
         self._id = _id
 
-
 class WikiFood:
     ''' An object for storing food metadata scraped from Wikipedia'''
     count = 0

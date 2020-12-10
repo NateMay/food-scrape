@@ -15,14 +15,14 @@ __version__ = '0.1.0'
 # Scraping control flow - Allows me to "turn off" portions of
 # scraping and database logic during development
 SHOULD = {
-    'reset_db': True,
+    'reset_db': False,
 
     # sections of the scraping logic
-    'manual_categories': True,  # 30 foods
     'single_table_category': True,  # 703 foods
+    'manual_categories': True,  # 30 foods
     'table_categories': True,  # 516 foods
-    'ul_categories': True,
-    # 'dishes': False
+    'ul_categories': True, # 764 foods
+    # 'dishes': False # not implemented
 }
 
 
@@ -35,14 +35,14 @@ if __name__ == "__main__":
     if SHOULD.get('single_table_category'):
         db.insert_all(single_table_category.scrape())
 
+    if SHOULD.get('manual_categories'):
+        db.insert_all(manual_categories.scrape())
+
     if SHOULD.get('table_categories'):
         db.insert_all(table_categories.scrape())
 
     if SHOULD.get('ul_categories'):
         db.insert_all(ul_categories.scrape())
-
-    if SHOULD.get('manual_categories'):
-        db.insert_all(manual_categories.scrape())
 
     # if SHOULD.get('dishes'):
     #     db.insert_all(dishes.scrape())
