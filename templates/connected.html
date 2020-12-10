@@ -1,0 +1,152 @@
+{% extends "base.html" %} {% block title %} {% endblock %} {% block html_head %}
+<style type="text/css">
+  img {
+    border-radius: 50%;
+    object-fit: cover;
+    height: 130px;
+    width: 130px;
+    margin: 16px;
+  }
+  .metadata {
+    display: flex;
+    margin-bottom: 16px;
+  }
+  .desc {
+    max-width: 400px;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .desc,
+  .name {
+    margin: 16px;
+    padding: 0;
+    text-align: left;
+  }
+  .chip {
+    border-radius: 25px;
+    padding: 8px 16px;
+    color: #fff;
+    background-color: #5a699d;
+    margin: 16px 0 16px 16px;
+  }
+
+  /* Default Table Style */
+  table {
+    margin: 16px;
+    color: #333;
+    background: white;
+    border: 1px solid grey;
+    font-size: 12pt;
+    border-collapse: collapse;
+  }
+  table thead th,
+  table tfoot th {
+    color: #777;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  table caption {
+    padding: 0.5em;
+  }
+  table th,
+  table td {
+    padding: 0.5em;
+    border: 1px solid lightgrey;
+  }
+  /* Zebra Table Style */
+  [data-table-theme*="zebra"] tbody tr:nth-of-type(odd) {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  [data-table-theme*="zebra"][data-table-theme*="dark"]
+    tbody
+    tr:nth-of-type(odd) {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+  #connect {
+    background: #5a699d;
+    color: #fff;
+    margin-left: 16px;
+    border: none;
+  }
+  #back {
+    background: #eee;
+    color: #333;
+    border: 1px solid #333;
+  }
+  .actions{
+    padding: 16px;
+  }
+</style>
+
+<script type=text/javascript>
+  $(function() {
+    $('#back').on('click', function(e) {
+      $('#back_form').submit();
+    });
+  });
+  $(function() {
+    $('#connect').on('click', function(e) {
+      $('#connect_form').submit();
+    });
+  });
+</script>
+{% endblock %} {% block content %}
+
+<!-- reuse template: https://stackoverflow.com/questions/21275375/reuse-a-block-of-code-in-several-places-in-jinja2 -->
+
+<div class="metadata">
+  <img src="{{src}}" />
+  <div class="text">
+    <h1 class="name">{{name}}</h1>
+    <p class="desc">{{description}}</p>
+  </div>
+</div>
+{% if cat1 %}
+<span class="chip">{{cat1}}</span>
+{% endif %} {% if cat2 %}
+<span class="chip">{{cat2}}</span>
+{% endif %}
+<br />
+<br />
+<br />
+
+<table data-table-theme="default zebra">
+  <thead>
+    <tr>
+      <th>Nutrient</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for nutr in nutrients %}
+    <tr>
+      <td>{{nutr.get('nutrientName')}}</td>
+      <td>{{nutr.get('value')}} {{nutr.get('unitName')}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="actions">
+  <button id="back" class="btn">Back</button>
+  <button id="connect" class="btn">Connect</button>
+</div>
+
+<!-- Back -->
+<form id="back_form" action="select_food" method="POST">
+  <input type="hidden" name="wiki_food" value="{{wiki_food}}">
+</form>
+
+
+<!-- Connect -->
+<form id="connect_form" action="connect" method="POST">
+  <input type="hidden" name="wiki_food" value="{{wiki_food}}">
+  <input type="hidden" name="fdc_food" value="{{fdc_food}}">
+</form>
+
+{% endblock %}

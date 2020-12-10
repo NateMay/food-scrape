@@ -1,11 +1,26 @@
-from api import wiki_http as http
+from page_scripts import helpers, food_page
+from pages import PAGES_TO_SCRAPE
+from wikipedia import wiki_http as http
 import models
-from page_scripts import helpers
-from page_scripts import food_page
+import pages
+
 
 # logic to scrape a page with a table of foods
+def scrape():
+    categories = []
+    for category in PAGES_TO_SCRAPE.get('table_categories'):
+        categories += scrape_page(
+            f'{pages.WIKI_BASE}{category[1]}', category[0], category[2])
+    return categories
+    # return [
+    #     scrape_page(
+    #         f'{pages.WIKI_BASE}{category[1]}', category[0], category[2])
+    #     for category
+    #     in PAGES_TO_SCRAPE.get('table_categories')
+    # ]
 
-def scrape(page_url, parent, column):
+
+def scrape_page(page_url, parent_category, column):
     ''' scrapes pages with the structure:
         1) h2 = name
         2) p = description
@@ -19,7 +34,7 @@ def scrape(page_url, parent, column):
         category_name(table),
         category_description(table),
         category_foods(table, column),
-        parent,
+        parent_category,
     ) for table in tables]
 
 
@@ -33,7 +48,7 @@ def category_name(table):
 
 
 def category_foods(table, column=1):
-    # gets the food names and links to dedicated pages, 
+    # gets the food names and links to dedicated pages,
     # ultimately scraping the description
 
     foods = []

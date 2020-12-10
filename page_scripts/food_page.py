@@ -1,5 +1,5 @@
+from wikipedia import wiki_http as http
 from page_scripts import helpers
-from api import wiki_http as http
 import models
 
 # Logic for scraping a food page
@@ -22,4 +22,5 @@ def create_food_url(page_url):
         helpers.scrub_string(soup.find('h1').text).replace(' as food', ''),
         helpers.scape_description(page_url, soup),
         helpers.scape_primary_image(soup),
+        page_url
     )

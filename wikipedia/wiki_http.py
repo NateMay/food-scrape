@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
-CACHE_FILENAME = 'wiki_cache.json'
+CACHE_FILENAME = 'wikipedia/wiki_cache.json'
 CACHE = {}
 
 

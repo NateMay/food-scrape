@@ -1,6 +1,6 @@
+from wikipedia import wiki_http as http
+import pages
 import re
-import constants
-from api import wiki_http as http
 
 
 def scrub_string(value):
@@ -23,7 +23,7 @@ def anchor_link(anchor):
 
 def add_base_url(route):
     # composes href into a link
-    return f'{constants.WIKI_BASE}{route}'
+    return f'{pages.WIKI_BASE}{route}'
 
 
 def description_from_route(route):
@@ -34,7 +34,7 @@ def description_from_route(route):
 def scape_description(page_url, soup=None):
     # scrapes the description from a food page
 
-    if 'redlink=1' in page_url: 
+    if 'redlink=1' in page_url:
         return ''
 
     if not soup:
@@ -74,9 +74,36 @@ def get_section_paragraphs(soup, iterable):
     return scrub_string('\n'.join(paras))
 
 
+def add_https(func):
+    def inner(soup):
+        src = func(soup)
+        if not src:
+            return None
+        else:
+            return f'https://{src}'
+    return inner
+
+
+def pluck_bigs(image):
+    return int(image["width"]) > 120 and int(image["height"]) > 120
+
+
+@add_https
 def scape_primary_image(soup):
     # scrapes the url of the first image
+
     if not soup.select_one('.mw-parser-output'):
         return ''
-    img = soup.select_one('.mw-parser-output img.thumbimage')
-    return img['src'][2:] if img and img['src'] else None
+    as_food = soup.select_one("#As_food")
+    
+    if as_food:
+        return as_food.find_next('img')['src'][2:]
+    else:
+        bigs = list(filter(pluck_bigs, soup.select('.mw-parser-output img[width]')))
+
+        if len(bigs) == 0:
+            return ''
+
+        first = bigs[0]
+
+        return first['src'][2:] if first and first['src'] else ''

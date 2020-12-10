@@ -7,13 +7,10 @@
 
 {% block html_head %}
 <style type="text/css">
-  /* Center tables for demo */
-  table {
-    margin: 0 32px;
-  }
 
   /* Default Table Style */
   table {
+    margin: 16px;
     color: #333;
     background: white;
     border: 1px solid grey;
@@ -50,7 +47,7 @@
 <script type=text/javascript>
   $(function() {
     $('input[type=button]').on('click', function(e) {
-      $('#hidden').val($(this).data('row'))
+      $('#hidden').val($(this).data('wiki_food'))
       $('#form').submit();
     });
   });
@@ -60,7 +57,7 @@
 {% block content %}
   <h1>Search results for "{{term}}"</h1>
   <form id="form" action="select_food" method="POST">
-    <input type="hidden" name="row" id="hidden">
+    <input type="hidden" name="wiki_food" id="hidden">
   </form>
   <table data-table-theme="default zebra">
     <thead>
@@ -76,12 +73,12 @@
     <tbody>
       {% for row in rows %}
       <tr>
-        <td><input type="button" value = "Select" data-row="{{row}}"/></td>
-        <td><img src="https://{{row[3]}}"></td>
+        <td><input type="button" value = "Select" data-wiki_food="{{row}}"/></td>
+        <td><img src="{{row[4]}}"></td>
         <td>{{row[1]}}</td>
         <td>{{row[2]}}</td>
-        <td>{{row[4]}}</td>
         <td>{{row[5]}}</td>
+        <td>{{row[6]}}</td>
       </tr>
       {% endfor %}
     </tbody>

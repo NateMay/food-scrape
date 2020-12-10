@@ -2,7 +2,7 @@ import requests
 from fdc import secrets
 import json
 
-CACHE_FILENAME = 'fdc_cache.json'
+CACHE_FILENAME = 'fdc/fdc_cache.json'
 CACHE = {}
 
 

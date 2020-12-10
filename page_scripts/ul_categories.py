@@ -1,11 +1,20 @@
-from page_scripts import helpers
-from api import wiki_http as http
-import models
+from wikipedia import wiki_http as http
 from page_scripts import food_page
+from pages import PAGES_TO_SCRAPE
+import pages
+import models
 
-# 
+# scapes pages that have several categories, but the foods are
+# in a <ul>
 
-def scrape(page_url, parent):
+def scrape():
+    categories = []
+    for category in PAGES_TO_SCRAPE.get('ul_categories'):
+        categories += scrape_page(f'{pages.WIKI_BASE}{category[1]}', category[0]) 
+    return categories
+
+
+def scrape_page(page_url, parent):
     ''' scrapes pages with the structure:
         1) h2 = name
         2) p = description
@@ -35,6 +44,7 @@ def scrape(page_url, parent):
             h2.text.replace('[edit]', ''),
             description.text.strip(),
             getUlFoods(h2),
+            page_url,
             parent,
         ))
 

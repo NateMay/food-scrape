@@ -33,18 +33,64 @@
   }
   .chip {
     border-radius: 25px;
-    padding: 8px;
+    padding: 8px 16px;
     color: #fff;
     background-color: #5A699D;
     margin: 16px 0 16px 16px
   }
+
+  /* Default Table Style */
+  table {
+    margin: 16px;
+    color: #333;
+    background: white;
+    border: 1px solid grey;
+    font-size: 12pt;
+    border-collapse: collapse;
+  }
+  table thead th,
+  table tfoot th {
+    color: #777;
+    background: rgba(0,0,0,.1);
+  }
+  table caption {
+    padding:.5em;
+  }
+  table th,
+  table td {
+    padding: .5em;
+    border: 1px solid lightgrey;
+  }
+  /* Zebra Table Style */
+  [data-table-theme*=zebra] tbody tr:nth-of-type(odd) {
+    background: rgba(0,0,0,.05);
+  }
+  [data-table-theme*=zebra][data-table-theme*=dark] tbody tr:nth-of-type(odd) {
+    background: rgba(255,255,255,.05);
+  }
+
 </style>
+
+<script type=text/javascript>
+  $(function() {
+    $('input[type=button]').on('click', function(e) {
+      $('#fdc_food').val($(this).data('fdc_food'))
+      $('#form').submit();
+    });
+  });
+</script>
 {% endblock %}
 
 {% block content %}
+<form id="form" action="select_fdc" method="POST">
+  <input type="hidden" name="fdc_food" id="fdc_food">
+  <input type="hidden" name="wiki_food" value="{{wiki_food}}">
+</form>
+
 <!-- reuse template: https://stackoverflow.com/questions/21275375/reuse-a-block-of-code-in-several-places-in-jinja2 -->
+
 <div class="metadata">
-  <img src="https://{{src}}">
+  <img src="{{src}}">
   <div class="text">
     <h1 class="name">{{name}}</h1>
     <p class="desc">{{description}}</p>
@@ -57,6 +103,36 @@
 {% if cat2 %}
 <span class="chip">{{cat2}}</span>
 {% endif %}
+<br>
+<br>
+<br>
 
-<!-- <div>id: {{id}}</div> -->
+<div style="margin:16px">
+  FDC search results for <b>"{{search}}"</b>
+</div>
+
+<br>
+
+
+<table data-table-theme="default zebra">
+  <thead>
+    <tr>
+      <th></th>
+      <th>fdcid</th>
+      <th>Name</th>
+      <th>Database</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for food in foods %}
+    <tr>
+      <td><input type="button" value = "Select" data-fdc_food="{{food}}"/></td>
+      <td>{{food.get('fdcId')}}</td>
+      <td>{{food.get('description')}}</td>
+      <td>{{food.get('dataType')}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}
