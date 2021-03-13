@@ -1,5 +1,5 @@
 from wikipedia import wiki_http as http
-from page_scripts import food_page
+from page_scripts import helpers, food_page
 from pages import PAGES_TO_SCRAPE
 import pages
 import models
@@ -10,11 +10,20 @@ import models
 def scrape():
     categories = []
     for category in PAGES_TO_SCRAPE.get('ul_categories'):
-        categories += scrape_page(f'{pages.WIKI_BASE}{category[1]}', category[0]) 
+        page_url = f'{pages.WIKI_BASE}{category[1]}'
+        parent_category = category[0]
+
+        categories.append(models.WikiCategory(
+            parent_category,
+            helpers.scape_description(page_url), 
+            page_url, 
+            [],
+            scrape_page(page_url)
+        ))
     return categories
 
 
-def scrape_page(page_url, parent):
+def scrape_page(page_url):
     ''' scrapes pages with the structure:
         1) h2 = name
         2) p = description
@@ -43,9 +52,8 @@ def scrape_page(page_url, parent):
         results.append(models.WikiCategory(
             h2.text.replace('[edit]', ''),
             description.text.strip(),
-            getUlFoods(h2),
             page_url,
-            parent,
+            getUlFoods(h2)
         ))
 
     return results

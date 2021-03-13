@@ -35,4 +35,4 @@ def scrape_page(page_url, category_name):
                 foods.append(food_page.create_food_from_anchor(anchor))
 
     # store the foods within their category
-    return models.WikiCategory(category_name, helpers.scape_description(page_url, soup), foods)
+    return models.WikiCategory(category_name, helpers.scape_description(page_url, soup), page_url, foods)

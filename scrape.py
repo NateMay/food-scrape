@@ -17,11 +17,12 @@ __version__ = '0.1.0'
 SHOULD = {
     'reset_db': False,
 
-    # sections of the scraping logic
-    'single_table_category': True,  # 703 foods
+    # # sections of the scraping logic
+    # 'single_table_category': True,  # 1175 foods
     'manual_categories': True,  # 30 foods
-    'table_categories': True,  # 516 foods
-    'ul_categories': True, # 764 foods
+    'table_categories': True,  # 835 foods
+    'ul_categories': True, # 772 foods
+
     # 'dishes': False # not implemented
 }
 

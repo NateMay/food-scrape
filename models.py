@@ -4,31 +4,30 @@ class WikiCategory:
     count = 0
     _id = None
 
-    def __init__(self, name, description, foods = [], wiki_url = '', parent_category=None):
+    def __init__(self, name, description, wiki_url = None, foods = None, child_categories=None):
         WikiCategory.count += 1
         self.name = name
         self.description = description
-        self.foods = foods
         self.wiki_url = wiki_url
-        self.parent_category = parent_category
+        self.foods = foods
+        self.child_categories = child_categories
         print(self)
 
     def __str__(self):
         return f'''
     {WikiCategory.count}) {self.name}
     _id: {self._id}
-    Parent: {self.parent_category}
     Description: {self.description[:40] if self.description else ''}...
     Wikipedia: {self.wiki_url[:42] if self.wiki_url else ''}...
     Food Count: {len(self.foods)}
     ------------------------
     '''
 
-    def insert_cmd(self):
-        # cretes an SQL insert command
+    def insert_cmd(self, parent_category_id=None):
+        # creates an SQL insert command
         return (
             "INSERT INTO wiki_category VALUES(NULL, ?, ?, ?, ?)",
-            (self.name, self.description, self.wiki_url, self.parent_category)
+            (self.name, self.description, self.wiki_url, parent_category_id)
         )
 
     def update_id(self, _id):
@@ -56,12 +55,11 @@ class WikiFood:
     ------------------------
     '''
 
-    def insert_cmd(self, categories):
+    def insert_cmd(self):
         # cretes an SQL insert command
         return (
-            "INSERT INTO wiki_food VALUES(NULL, ?, ?, ?, ?, ?, ?)",
-            (self.name, self.description, self.wiki_url, self.image_src,
-             categories[0], categories[1])
+            "INSERT INTO wiki_food VALUES(NULL, ?, ?, ?, ?)",
+            (self.name, self.description, self.wiki_url, self.image_src)
         )
 
     def update_id(self, _id):

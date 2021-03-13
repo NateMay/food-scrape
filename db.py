@@ -36,16 +36,14 @@ def create_tables():
         "name"             TEXT NOT NULL,
         "description"      TEXT,
         "wiki_url"         TEXT,
-        "parent_category"  TEXT);'''
+        "parent_category"  INTEGER);'''
 
     wiki_food = '''CREATE TABLE IF NOT EXISTS "wiki_food" (
         "id"               INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
         "name"             TEXT NOT NULL,
         "description"      TEXT,
         "wiki_url"         TEXT,
-        "image_src"        TEXT,
-        "category1"        TEXT,         
-        "category2"        TEXT);'''
+        "image_src"        TEXT);'''
 
     wiki_food_category = '''CREATE TABLE IF NOT EXISTS "wiki_food_category" (
         "id"                INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -87,21 +85,42 @@ def create_tables():
 
 
 def insert_all(categories):
+
     conn = sqlite3.connect(DB_FILENAME)
     cur = conn.cursor()
 
     for category in categories:
-        cur.execute(*category.insert_cmd())
-        category.update_id(cur.lastrowid)
+        if category.name:
+            cur.execute(*category.insert_cmd())
+            category.update_id(cur.lastrowid)
 
-        for food in category.foods:
-            cur.execute(
-                *food.insert_cmd([category.parent_category, category._id]))
-            cur.execute(
-                *("INSERT INTO wiki_food_category VALUES(NULL, ?, ?)", (cur.lastrowid, category._id)))
+            if category.foods:
+                insert_foods(cur, category)
+
+            if category.child_categories:
+                for child in category.child_categories:
+                    if child.name:
+                        cur.execute(*child.insert_cmd(category._id))
+                        child.update_id(cur.lastrowid)
+                        insert_foods(cur, child, category)
 
     conn.commit()
     conn.close()
+
+
+WIKI_FOOD_INSERT = "INSERT INTO wiki_food_category VALUES(NULL, ?, ?)"
+
+
+def insert_foods(cur, category, parent_category=None):
+    for food in category.foods:
+        if food.name and food.description:
+            cur.execute(*food.insert_cmd())
+            food_id = cur.lastrowid
+
+            cur.execute(*(WIKI_FOOD_INSERT, (food_id, category._id)))
+
+            if parent_category:
+                cur.execute(*(WIKI_FOOD_INSERT, (food_id, parent_category._id)))
 
 
 def query_db_by(term):
@@ -155,6 +174,6 @@ def connect_fdc_wiki(fdc, wiki):
             nutrient.get('unitName'),
             nutrient.get('value'),
         ))
-    
+
     conn.commit()
     conn.close()

@@ -9,18 +9,21 @@ import pages
 def scrape():
     categories = []
     for category in PAGES_TO_SCRAPE.get('table_categories'):
-        categories += scrape_page(
-            f'{pages.WIKI_BASE}{category[1]}', category[0], category[2])
+
+        page_url = f'{pages.WIKI_BASE}{category[1]}'
+
+        categories.append(models.WikiCategory(
+            category[0],
+            helpers.scape_description(page_url), 
+            page_url, 
+            [],
+            scrape_page(page_url, category[2])
+        ))
+
     return categories
-    # return [
-    #     scrape_page(
-    #         f'{pages.WIKI_BASE}{category[1]}', category[0], category[2])
-    #     for category
-    #     in PAGES_TO_SCRAPE.get('table_categories')
-    # ]
 
 
-def scrape_page(page_url, parent_category, column):
+def scrape_page(page_url, column):
     ''' scrapes pages with the structure:
         1) h2 = name
         2) p = description
@@ -29,12 +32,12 @@ def scrape_page(page_url, parent_category, column):
     soup = http.request(page_url)
 
     # each table is a category
-    tables = soup.select('.mw-parser-output table.wikitable')
+    tables = soup.select(':not(.navbox) > table')
     return [models.WikiCategory(
         category_name(table),
         category_description(table),
-        category_foods(table, column),
-        parent_category,
+        page_url,
+        category_foods(table, column)
     ) for table in tables]
 
 

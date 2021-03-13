@@ -26,6 +26,8 @@ PAGES_TO_SCRAPE = {
         ('Fried Dough', '/wiki/List_of_fried_dough_foods'),
         ('Dairy', '/wiki/List_of_dairy_products'),
         ('Cheese', '/wiki/List_of_cheeses'),
+        ('Cakes', '/wiki/List_of_cakes'),
+        ('Pastries', '/wiki/List_of_pastries'),
     ],
     # manually contructed hierarchy of cargoriesa and foods
     'manual_categories': {
